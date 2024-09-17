@@ -1,31 +1,20 @@
-import Profile from "./components/Profile/Profile";
-import userData from "./userData.json";
+import { useState } from "react";
+import ContactList from "./components/ContactList/ContactList";
 
-import friends from "./friends.json";
-import FriendList from "./components/FriendList/FriendList";
-
-import transactions from "./transactions.json";
-import TransactionHistory from "./components/TransactionHistory/TransactionHistory";
+const initialContacts = [
+  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+];
 
 const App = () => {
+  const [contacts, setContacts] = useState(initialContacts);
+
   return (
     <div>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
-      />
-      <div />
-
-      <div>
-        <FriendList friends={friends} />
-      </div>
-
-      <>
-        <TransactionHistory items={transactions} />
-      </>
+      <h1>Phonebook</h1>
+      <ContactList contacts={contacts} />
     </div>
   );
 };
