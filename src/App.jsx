@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
+import ContactForm from "./components/ContactForm/ContactForm";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -10,11 +11,15 @@ const initialContacts = [
 ];
 
 const App = () => {
-  const [contacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(initialContacts);
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleAddContact = (newContact) => {
+    setContacts((prevContacts) => [newContact, ...prevContacts]);
   };
 
   const filteredContacts = contacts.filter((contact) =>
@@ -24,6 +29,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <ContactForm onAddContact={handleAddContact} />
       <SearchBox value={searchTerm} onChange={handleSearchChange} />
       <ContactList contacts={filteredContacts} />
     </div>
