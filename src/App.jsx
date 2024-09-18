@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import ContactForm from "./components/ContactForm/ContactForm";
 import { nanoid } from "nanoid";
+
+const LOCAL_STORAGE_KEY = "contacts";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -12,8 +14,16 @@ const initialContacts = [
 ];
 
 const App = () => {
-  const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(() => {
+    const savedContacts = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return savedContacts ? JSON.parse(savedContacts) : initialContacts;
+  });
+
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+  }, [contacts]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
