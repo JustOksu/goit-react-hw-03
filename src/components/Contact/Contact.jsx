@@ -1,6 +1,6 @@
 import styles from "./Contact.module.css";
 
-const Contact = ({ name, number }) => {
+const Contact = ({ name, number, onDelete }) => {
   return (
     <div className={styles.contactCard}>
       <div className={styles.contactInfo}>
@@ -17,7 +17,9 @@ const Contact = ({ name, number }) => {
           {number}
         </p>
       </div>
-      <button className={styles.deleteButton}>Delete</button>
+      <button className={styles.deleteButton} onClick={onDelete}>
+        Delete
+      </button>
     </div>
   );
 };

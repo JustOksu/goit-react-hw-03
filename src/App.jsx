@@ -2,6 +2,7 @@ import { useState } from "react";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import ContactForm from "./components/ContactForm/ContactForm";
+import { nanoid } from "nanoid";
 
 const initialContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
@@ -19,19 +20,31 @@ const App = () => {
   };
 
   const handleAddContact = (newContact) => {
-    setContacts((prevContacts) => [newContact, ...prevContacts]);
+    setContacts((prevContacts) => [
+      { ...newContact, id: nanoid() },
+      ...prevContacts,
+    ]);
   };
 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDeleteContact = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id)
+    );
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm onAddContact={handleAddContact} />
       <SearchBox value={searchTerm} onChange={handleSearchChange} />
-      <ContactList contacts={filteredContacts} />
+      <ContactList
+        contacts={filteredContacts}
+        onDeleteContact={handleDeleteContact}
+      />
     </div>
   );
 };
